@@ -14,15 +14,31 @@ class PortoController extends Controller
         return view('dashboard.table', compact('porto'));
     }
 
+    function getPorto(Request $request)
+    {
+        $porto = Porto::all();
+        return response()->json($porto);
+    }
+
     function addPorto(Request $request)
     {
         $porto = new Porto();
         $porto->project_name = $request->project_name;
         $porto->description = $request->description;
         $porto->image = $request->image;
-        $porto->save();
+        $result=$porto->save();
 
+        if($result){
+            return ["Result"=>"Data has been saved"];
+        }else
+        {
+            return ["Result"=>"Operation failed"];
+        }
         return redirect()->route('dashboard');
+    }
+
+    function delete($id){
+        return ["result"=>"record has been delete", $id];
     }
 
     function deletePorto(Request $request)
@@ -35,6 +51,11 @@ class PortoController extends Controller
         }else{
             return back()->with('fail', 'Try Again!');
         }
+    }
+
+    function update(Request $request)
+    {
+        return ["result"=>"data is updated"];
     }
 
     function updatePorto(Request $request)
