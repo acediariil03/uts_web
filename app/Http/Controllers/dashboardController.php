@@ -7,6 +7,11 @@ use App\Models\Porto;
 
 class dashboardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:web');
+    }
+
     function index (Request $request)
     {
         $porto = Porto::all();
